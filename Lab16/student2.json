@@ -1,0 +1,10 @@
+{
+    "name": "Aitegin",
+    "age": 15,
+    "city": "Karakol",
+    "courses": [
+        "Math",
+        "Science",
+        "History"
+    ]
+}
