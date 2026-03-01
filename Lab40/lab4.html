@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Change Image</title>
+</head>
+<body>
+
+    <img id="image" src="lab4_images/default.jpg" width="400">
+    <button onclick="changeImage()">Change Image</button>
+
+    <script>
+        function changeImage() {
+            let img = document.getElementById("image");
+            img.setAttribute("src", "lab4_images/new.jpg");
+        }
+    </script>
+
+</body>
+</html>

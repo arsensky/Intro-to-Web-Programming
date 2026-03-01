@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Number Validation</title>
+</head>
+<body>
+    <form onsubmit="return validateNumber()">
+        <label for="age">Enter Age:</label>
+        <input type="text" id="age" placeholder="Enter age">
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        function validateNumber() {
+            let age = document.getElementById("age").value;
+
+            if (isNaN(age) || age.trim() === "") {
+                alert("Please enter a valid number!");
+                return false;
+            }
+            return true;
+        }
+    </script>
+</body>
+</html>
