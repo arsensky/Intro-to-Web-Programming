@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab44_5</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+    <body>
+    <input type="text" id="taskInput">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+
+    <button onclick="clearStorage()">Clear storage</button>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", renderTasks);
+
+    function addTask() {
+        const input = document.getElementById("taskInput");
+        const text = input.value.trim();
+        if (!text) return;
+
+        const tasks = getTasks();
+        tasks.push({ text, completed: false });
+        saveTasks(tasks);
+        input.value = "";
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const list = document.getElementById("taskList");
+        list.innerHTML = "";
+
+        getTasks().forEach((task, index) => {
+            const li = document.createElement("li");
+
+            const span = document.createElement("span");
+            span.textContent = task.text;
+            if (task.completed) span.classList.add("completed");
+            span.onclick = () => toggleComplete(index);
+
+            const editBtn = document.createElement("button");
+            editBtn.textContent = "Edit";
+            editBtn.onclick = () => editTask(index);
+
+            li.append(span, editBtn);
+            list.appendChild(li);
+        });
+    }
+
+    function toggleComplete(index) {
+        const tasks = getTasks();
+        tasks[index].completed = !tasks[index].completed;
+        saveTasks(tasks);
+        renderTasks();
+    }
+
+    function editTask(index) {
+        const tasks = getTasks();
+        const newText = prompt("Edit task:", tasks[index].text);
+        if (newText !== null && newText.trim() !== "") {
+            tasks[index].text = newText;
+            saveTasks(tasks);
+            renderTasks();
+        }
+    }
+
+    function saveTasks(tasks) {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    function getTasks() {
+        return JSON.parse(localStorage.getItem("tasks")) || [];
+    }
+    </script>
+</body>
+</html>

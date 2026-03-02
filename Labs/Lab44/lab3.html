@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab44_3</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="taskInput">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+    function addTask() {
+        const input = document.getElementById("taskInput");
+        const text = input.value.trim();
+        if (text === "") return;
+
+        const li = document.createElement("li");
+        li.textContent = text;
+
+        li.onclick = () => li.classList.toggle("completed");
+
+        document.getElementById("taskList").appendChild(li);
+        input.value = "";
+    }
+</script>
+</body>
+</html>

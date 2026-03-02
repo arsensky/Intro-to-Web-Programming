@@ -1,0 +1,180 @@
+postgres=# CREATE TABLE employees (
+postgres(#     id SERIAL PRIMARY KEY,
+postgres(#     first_name TEXT,
+postgres(#     last_name TEXT,
+postgres(#     department TEXT,
+postgres(#     salary INTEGER,
+postgres(#     hire_date DATE
+postgres(# );
+CREATE TABLE
+postgres=#
+postgres=# INSERT INTO employees (first_name, last_name, department, salary, hire_date) VALUES
+postgres-# ('Alice', 'Smith', 'HR', 50000, '2020-06-15'),
+postgres-# ('Bob', 'Johnson', 'IT', 70000, '2019-08-23'),
+postgres-# ('Charlie', 'Williams', 'Finance', 65000, '2021-03-11'),
+postgres-# ('David', 'Brown', 'IT', 72000, '2018-09-30'),
+postgres-# ('Emma', 'Davis', 'HR', 48000, '2022-01-05');
+INSERT 0 5
+postgres=#
+postgres=# SELECT * FROM employees;
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(5 rows)
+
+
+postgres=#
+postgres=# SELECT first_name, salary FROM employees;
+ first_name | salary
+------------+--------
+ Alice      |  50000
+ Bob        |  70000
+ Charlie    |  65000
+ David      |  72000
+ Emma       |  48000
+(5 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE department = 'IT';
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+(2 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE salary > 60000;
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+(3 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE hire_date > '2020-01-01';
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(3 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE department IN ('HR', 'Finance');
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(3 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE first_name LIKE 'A%';
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+(1 row)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE last_name LIKE '%son';
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+(1 row)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE first_name LIKE '%e';
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+(2 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE salary BETWEEN 50000 AND 70000;
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+(3 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE hire_date BETWEEN '2019-01-01' AND '2021-12-31';
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+(3 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE department IN ('IT', 'HR');
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(4 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees WHERE salary IN (48000, 65000, 72000);
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(3 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees ORDER BY first_name ASC;
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(5 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees ORDER BY salary DESC;
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+(5 rows)
+
+
+postgres=#
+postgres=# SELECT * FROM employees ORDER BY department ASC, salary DESC;
+ id | first_name | last_name | department | salary | hire_date
+----+------------+-----------+------------+--------+------------
+  3 | Charlie    | Williams  | Finance    |  65000 | 2021-03-11
+  1 | Alice      | Smith     | HR         |  50000 | 2020-06-15
+  5 | Emma       | Davis     | HR         |  48000 | 2022-01-05
+  4 | David      | Brown     | IT         |  72000 | 2018-09-30
+  2 | Bob        | Johnson   | IT         |  70000 | 2019-08-23
+(5 rows)

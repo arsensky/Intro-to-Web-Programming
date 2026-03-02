@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin: 50px;
+        }
+        h2 {
+            color: #333;
+        }
+        .container {
+            background: white;
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+        }
+        input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background: #fff;
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        li:hover {
+            background: #ddd;
+        }
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+<body>
+    <h2>To-Do List</h2>
+    <div class="container">
+        <input type="text" id="taskInput" placeholder="Enter a task">
+        <button id="addTask">Add Task</button>
+        <ul id="taskList"></ul>
+    </div>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", loadTasks);
+
+
+        let taskInput = document.getElementById("taskInput");
+        let addTaskButton = document.getElementById("addTask");
+        let taskList = document.getElementById("taskList");
+
+
+        addTaskButton.onclick = function() {
+            let taskText = taskInput.value.trim();
+            if (taskText === "") {
+                alert("Task cannot be empty!");
+                return;
+            }
+
+
+            let li = document.createElement("li");
+            li.textContent = taskText;
+
+
+            li.onclick = function() {
+                li.classList.toggle("completed");
+                saveTasks();
+            };
+
+
+            li.ondblclick = function() {
+                taskList.removeChild(li);
+                saveTasks();
+            };
+
+
+            taskList.appendChild(li);
+            taskInput.value = "";
+
+
+            saveTasks();
+        };
+
+
+        function saveTasks() {
+            let tasks = [];
+            document.querySelectorAll("#taskList li").forEach(task => {
+                tasks.push({ text: task.textContent, completed: task.classList.contains("completed") });
+            });
+            localStorage.setItem("tasks", JSON.stringify(tasks));
+        }
+
+
+        function loadTasks() {
+            let storedTasks = localStorage.getItem("tasks");
+            if (storedTasks) {
+                let tasks = JSON.parse(storedTasks);
+                tasks.forEach(task => {
+                    let li = document.createElement("li");
+                    li.textContent = task.text;
+                    if (task.completed) li.classList.add("completed");
+
+
+                    li.onclick = function() {
+                        li.classList.toggle("completed");
+                        saveTasks();
+                    };
+
+
+                    li.ondblclick = function() {
+                        taskList.removeChild(li);
+                        saveTasks();
+                    };
+
+
+                    taskList.appendChild(li);
+                });
+            }
+        }
+    </script>
+</body>
+</html>

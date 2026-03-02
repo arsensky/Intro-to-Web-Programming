@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab44_4</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: gray;
+        }
+    </style>
+</head>
+    <body>
+    <input type="text" id="taskInput">
+    <button onclick="addTask()">Add</button>
+
+    <ul id="taskList"></ul>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", loadTasks);
+
+    function addTask() {
+        const input = document.getElementById("taskInput");
+        const text = input.value.trim();
+        if (text === "") return;
+
+        const task = { text, completed: false };
+        const tasks = getTasks();
+        tasks.push(task);
+        saveTasks(tasks);
+
+        input.value = "";
+        renderTasks();
+    }
+
+    function renderTasks() {
+        const list = document.getElementById("taskList");
+        list.innerHTML = "";
+
+        getTasks().forEach((task, index) => {
+            const li = document.createElement("li");
+            li.textContent = task.text;
+            if (task.completed) li.classList.add("completed");
+
+            li.onclick = () => {
+                task.completed = !task.completed;
+                saveTasks(getTasks());
+                renderTasks();
+            };
+
+            list.appendChild(li);
+        });
+    }
+
+    function saveTasks(tasks) {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
+    function getTasks() {
+        return JSON.parse(localStorage.getItem("tasks")) || [];
+    }
+
+    function loadTasks() {
+        renderTasks();
+    }
+    </script>
+</body>
+</html>

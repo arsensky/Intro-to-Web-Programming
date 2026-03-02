@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab45_3</title>
+</head>
+<body>
+    <button onclick="getJoke()">Get Joke</button>
+    <p id="joke"></p>
+
+    <script>
+    function getJoke() {
+        fetch("https://official-joke-api.appspot.com/random_joke")
+            .then(res => res.json())
+            .then(joke => {
+                document.getElementById("joke").textContent =
+                    joke.setup + " — " + joke.punchline;
+            });
+    }
+    </script>
+</body>
+</html>

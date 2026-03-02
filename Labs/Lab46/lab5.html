@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab46_5</title>
+    <style>
+        body {
+            margin: 0;
+        }
+
+        .gallery {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+            gap:15px;
+            padding:20px;
+        }
+
+        .gallery img {
+            width:100%;
+            cursor:pointer;
+            transition:transform 0.3s;
+        }
+
+        .gallery img:hover {
+            transform:scale(1.05);
+        }
+
+        .modal {
+            display:none;
+            position:fixed;
+            width:100%;
+            height:100%;
+            background:rgba(0,0,0,0.8);
+            justify-content:center;
+            align-items:center;
+            animation:fade 0.3s;
+        }
+
+        @keyframes fade {
+            from {opacity:0;}
+            to {opacity:1;}
+        }
+    </style>
+</head>
+<body>
+    <div class="gallery" id="gallery"></div>
+
+    <div class="modal" id="modal">
+        <img id="modal-img" style="max-width:80%;">
+    </div>
+
+    <script>
+    const images=[
+    "https://picsum.photos/id/1015/600/400",
+    "https://picsum.photos/id/1016/600/400"
+    ];
+
+    const gallery=document.getElementById("gallery");
+    const modal=document.getElementById("modal");
+    const modalImg=document.getElementById("modal-img");
+
+    images.forEach((src,index)=>{
+        const img=document.createElement("img");
+        img.src=src;
+        img.onclick=()=>{
+            modal.style.display="flex";
+            modalImg.src=src;
+            localStorage.setItem("last",index);
+        };
+        gallery.appendChild(img);
+    });
+
+    window.onload=()=>{
+        const saved=localStorage.getItem("last");
+        if(saved!==null){
+            modal.style.display="flex";
+            modalImg.src=images[saved];
+        }
+    };
+
+    modal.onclick=()=>modal.style.display="none";
+    </script>
+</body>
+</html>

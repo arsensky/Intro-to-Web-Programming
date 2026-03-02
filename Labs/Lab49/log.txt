@@ -1,0 +1,121 @@
+postgres=# CREATE TABLE users (
+postgres(#     user_id           SERIAL PRIMARY KEY,
+postgres(#     name              TEXT        NOT NULL,
+postgres(#     email             TEXT UNIQUE NOT NULL,
+postgres(#     age               INTEGER,
+postgres(#     registration_date DATE DEFAULT CURRENT_DATE
+postgres(# );
+CREATE TABLE
+postgres=#
+postgres=# INSERT INTO users (name, email, age) VALUES
+postgres-# ('Alice Johnson', 'alice@example.com', 28),
+postgres-# ('Bob Smith', 'bob@example.com', 32),
+postgres-# ('Charlie Brown', 'charlie@example.com', 25);
+INSERT 0 3
+postgres=#
+postgres=# SELECT * FROM users;
+ user_id |     name      |        email        | age | registration_date
+---------+---------------+---------------------+-----+-------------------
+       1 | Alice Johnson | alice@example.com   |  28 | 2026-03-02
+       2 | Bob Smith     | bob@example.com     |  32 | 2026-03-02
+       3 | Charlie Brown | charlie@example.com |  25 | 2026-03-02
+(3 rows)
+
+
+postgres=# UPDATE users
+postgres-# SET age = 29
+postgres-# WHERE name = 'Alice Johnson';
+UPDATE 1
+postgres=#
+postgres=# UPDATE users
+postgres-# SET email = 'charlie.brown@example.com'
+postgres-# WHERE name = 'Charlie Brown';
+UPDATE 1
+postgres=#
+postgres=# SELECT * FROM users;
+ user_id |     name      |           email           | age | registration_date
+---------+---------------+---------------------------+-----+-------------------
+       2 | Bob Smith     | bob@example.com           |  32 | 2026-03-02
+       1 | Alice Johnson | alice@example.com         |  29 | 2026-03-02
+       3 | Charlie Brown | charlie.brown@example.com |  25 | 2026-03-02
+(3 rows)
+
+
+postgres=# DELETE FROM users
+postgres-# WHERE email = 'bob@example.com';
+DELETE 1
+postgres=#
+postgres=# DELETE FROM users
+postgres-# WHERE age > 30;
+DELETE 0
+postgres=#
+postgres=# SELECT * FROM users;
+ user_id |     name      |           email           | age | registration_date
+---------+---------------+---------------------------+-----+-------------------
+       1 | Alice Johnson | alice@example.com         |  29 | 2026-03-02
+       3 | Charlie Brown | charlie.brown@example.com |  25 | 2026-03-02
+(2 rows)
+
+
+postgres=# CREATE TABLE products (
+postgres(#     product_id     SERIAL PRIMARY KEY,
+postgres(#     product_name   TEXT           NOT NULL,
+postgres(#     price          NUMERIC(10, 2) NOT NULL,
+postgres(#     stock_quantity INTEGER        NOT NULL,
+postgres(#     discontinued   BOOLEAN DEFAULT FALSE
+postgres(# );
+CREATE TABLE
+postgres=#
+postgres=# INSERT INTO products (product_name, price, stock_quantity) VALUES
+postgres-# ('Laptop', 999.99, 10),
+postgres-# ('Smartphone', 599.99, 20),
+postgres-# ('Headphones', 199.99, 15);
+INSERT 0 3
+postgres=#
+postgres=# UPDATE products
+postgres-# SET price = 1099.99
+postgres-# WHERE product_name = 'Laptop';
+UPDATE 1
+postgres=#
+postgres=# UPDATE products
+postgres-# SET discontinued = TRUE
+postgres-# WHERE product_name = 'Headphones';
+UPDATE 1
+postgres=#
+postgres=# DELETE FROM products
+postgres-# WHERE discontinued = TRUE;
+DELETE 1
+postgres=#
+postgres=# SELECT * FROM products;
+ product_id | product_name |  price  | stock_quantity | discontinued
+------------+--------------+---------+----------------+--------------
+          2 | Smartphone   |  599.99 |             20 | f
+          1 | Laptop       | 1099.99 |             10 | f
+(2 rows)
+
+
+postgres=# BEGIN;
+BEGIN
+postgres=*#
+postgres=*# INSERT INTO users (name, email, age) VALUES
+postgres-*# ('David Green', 'david@example.com', 40);
+INSERT 0 1
+postgres=*#
+postgres=*# UPDATE users
+postgres-*# SET age = 35
+postgres-*# WHERE name = 'Alice Johnson';
+UPDATE 1
+postgres=*#
+postgres=*# DELETE FROM users
+postgres-*# WHERE name = 'Charlie Brown';
+DELETE 1
+postgres=*#
+postgres=*# ROLLBACK;
+ROLLBACK
+postgres=#
+postgres=# SELECT * FROM users;
+ user_id |     name      |           email           | age | registration_date
+---------+---------------+---------------------------+-----+-------------------
+       1 | Alice Johnson | alice@example.com         |  29 | 2026-03-02
+       3 | Charlie Brown | charlie.brown@example.com |  25 | 2026-03-02
+(2 rows)

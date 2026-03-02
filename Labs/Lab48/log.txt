@@ -1,0 +1,68 @@
+postgres=# CREATE TABLE users (
+postgres(#     id         SERIAL PRIMARY KEY,
+postgres(#     full_name  TEXT                NOT NULL,
+postgres(#     email      VARCHAR(100) UNIQUE NOT NULL,
+postgres(#     birth_date DATE                NOT NULL,
+postgres(#     is_active  BOOLEAN DEFAULT TRUE
+postgres(# );
+CREATE TABLE
+postgres=# SELECT * FROM users;
+ id | full_name | email | birth_date | is_active
+----+-----------+-------+------------+-----------
+(0 rows)
+
+
+postgres=# CREATE TABLE products (
+postgres(#     product_id SERIAL PRIMARY KEY,
+postgres(#     name       TEXT           NOT NULL,
+postgres(#     price      DECIMAL(10, 2) NOT NULL,
+postgres(#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+postgres(# );
+CREATE TABLE
+postgres=# SELECT * FROM products;
+ product_id | name | price | created_at
+------------+------+-------+------------
+(0 rows)
+
+
+postgres=# DROP TABLE IF EXISTS products;
+DROP TABLE
+postgres=# SELECT * FROM products;
+ERROR:  relation "products" does not exist
+LINE 1: SELECT * FROM products;
+                      ^
+postgres=# CREATE TABLE products (
+postgres(#     product_id SERIAL PRIMARY KEY,
+postgres(#     name       TEXT           NOT NULL,
+postgres(#     price      DECIMAL(10, 2) NOT NULL,
+postgres(#     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+postgres(# );
+CREATE TABLE
+postgres=# ALTER TABLE users ADD COLUMN phone_number VARCHAR(20);
+ALTER TABLE
+postgres=# SELECT phone_number FROM users;
+ phone_number
+--------------
+(0 rows)
+
+
+postgres=# ALTER TABLE users DROP COLUMN phone_number;
+ALTER TABLE
+postgres=# SELECT phone_number FROM users;
+ERROR:  column "phone_number" does not exist
+LINE 1: SELECT phone_number FROM users;
+               ^
+postgres=# ALTER TABLE users RENAME COLUMN full_name TO name;
+ALTER TABLE
+postgres=# SELECT name FROM users;
+ name
+------
+(0 rows)
+
+
+postgres=# ALTER TABLE products ALTER COLUMN price TYPE INTEGER;
+ALTER TABLE
+postgres=# SELECT price FROM products;
+ price
+-------
+(0 rows)

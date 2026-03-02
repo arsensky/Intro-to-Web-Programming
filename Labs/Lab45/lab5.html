@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab45_5</title>
+    <style>
+        img {
+            width: 150px;
+            display: block;
+        }
+        .item {
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h2>Image Gallery</h2>
+    <div id="gallery"></div>
+
+    <script>
+    fetch("https://jsonplaceholder.typicode.com/photos?_limit=5")
+        .then(res => res.json())
+        .then(images => {
+            const gallery = document.getElementById("gallery");
+
+            images.forEach(img => {
+                const div = document.createElement("div");
+                div.className = "item";
+                div.innerHTML = `<img src="${img.thumbnailUrl}"><p>${img.title}</p>`;
+                gallery.appendChild(div);
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab46_4</title>
+    <style>
+        .gallery {
+            display:grid;
+            grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+            gap:15px;
+            padding:20px;
+        }
+        .gallery img {
+            width: 100%;
+            cursor: pointer;
+        }
+</style>
+</head>
+    <body>
+    <div class="gallery" id="gallery"></div>
+
+    <script>
+    const images = [
+        "https://picsum.photos/id/1015/600/400",
+        "https://picsum.photos/id/1016/600/400",
+        "https://picsum.photos/id/1018/600/400"
+    ];
+
+    const gallery = document.getElementById("gallery");
+
+    images.forEach(src=>{
+        const img=document.createElement("img");
+        img.src=src;
+        gallery.appendChild(img);
+    });
+    </script>
+</body>
+</html>
